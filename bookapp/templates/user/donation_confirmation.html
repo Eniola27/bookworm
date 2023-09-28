@@ -1,0 +1,79 @@
+{%extends 'user/home_layout.html'%}
+
+{%block content%}
+<div class="content" style="background-color: white;padding:3em">
+    <h3> Confirmation Page</h3>
+    <p>Kindly confirm the following details:</p>
+     <div class="mb-3">
+      <label>Donor's Name:</label>
+        <b>{{ donation_deets.don_fullname }}</b>
+     </div>
+  
+     <div class="mb-3">
+      <label>Donor's Email:</label>
+        <b>{{ donation_deets.don_email }}</b>
+     </div>
+  
+     <div class="mb-3">
+      <label>Donor's Amount:</label>
+        <b> NGN {{ donation_deets.don_amt/100 }}</b>
+     </div>
+  
+     <div class="mb-3">
+      <label>TRANSACTIONAL REF:</label>
+        <span class="text-danger bg-warning"><b>{{ donation_deets.don_refno }}</b></span>
+     </div>
+     <form>
+      <div class="mb-3">
+          <a href="/dashboard" class="btn btn-warning">Cancel Payment</a>
+          <button class="btn btn-dark" type="button" onclick="payWithPaystack(event)">Confirm Payment (Popup)</button>
+      </div>
+     </form>
+  <hr>
+  <div>
+  <h5>Redirect Method</h5>
+  <a href="/initialize/paystack/" class="btn btn-success"> Make Payment Now </a>
+  </div>
+   </div>
+{%endblock%}
+{% block partner %}
+
+{% endblock partner %}
+
+{%block featured%}
+
+{% endblock featured%}
+
+{% block customcss %}
+     style="background-color:white";
+{% endblock customcss %}
+
+{% block customjs %}
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <script>
+    const paymentForm = document.getElementById('paymentForm');
+paymentForm.addEventListener("submit", payWithPaystack, false);
+
+function payWithPaystack(e) {
+  e.preventDefault();
+  let handler = PaystackPop.setup({
+    key: 'pk_test_8fe3022dceacfd80173a992791cb07ed9f4a4f81', // Replace with your public key
+    email: "{{ donation_deets.don_email }}",
+    amount: "{{ donation_deets.don_amt }}",
+    ref: "{{ donation_deets.don_refno }}", // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+    // label: "Optional string that replaces customer email"
+    onClose: function(){
+      alert('Window closed.');
+    },
+    callback: function(response){
+      console.log(reference)
+      let message = 'Payment complete! Reference: ' + response.reference;
+      alert(message);
+    }
+  });
+
+  handler.openIframe();
+}
+  </script>
+
+{% endblock %}

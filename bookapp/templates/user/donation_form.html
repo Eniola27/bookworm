@@ -1,0 +1,49 @@
+{%extends 'user/home_layout.html'%}
+
+{%block content%}
+<div class="content" style="background-color: white;padding:3em">
+    <h2>Donation form.Thank you!!</h2>
+    <p>kindly complete the form below with the amount to donate.</p>
+    <form method="post" action="">
+  
+      <div class="row mb-3">
+          <div class="col-md-12">
+          <div class="form-floating mb-3 mb-md-0">
+            {{ donform.fullname(class_="form-control", value=deets.user_fullname)}}
+            {{ donform.fullname.label }}
+            {{ donform.hidden_tag() }}
+          </div>
+          </div>
+      </div>
+      <div class="form-floating mb-3">
+            {{ donform.email(class_="form-control", value=deets.user_email) }}
+            {{ donform.email.label }}
+      </div>
+      <div class="row mb-3">
+          <div class="col-md-12">
+          <div class="form-floating mb-3 mb-md-0">
+            {{ donform.amt(class_="form-control",placeholder="Enter your first name") }}
+            {{ donform.amt.label }}
+          </div>
+          </div>
+      </div>
+      <div class="mt-4 mb-0">
+          <div class="d-grid">   
+            {{ donform.btnsubmit(class_="btn btn-danger btn-block")}}
+          </div>
+      </div>
+  
+    </form>
+   </div>
+{%endblock%}
+{% block partner %}
+
+{% endblock partner %}
+
+{%block featured%}
+
+{% endblock featured%}
+
+{% block customcss %}
+     style="background-color:white";
+{% endblock customcss %}
